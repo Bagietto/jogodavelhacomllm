@@ -1,5 +1,5 @@
 export const environment = {
-  openRouterApiKey: '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',
+  openRouterApiKey: '<YOUR_OPENROUTER_API_KEY>',
   openRouterBaseUrl: 'https://openrouter.ai/api/v1',
   appName: 'Jogo da Velha com IA',
   appUrl: 'http://localhost:4200',
