@@ -1,0 +1,83 @@
+<main class="page">
+  <section class="panel setup">
+    <h1>Jogo da Velha com IA</h1>
+    <p>Adversaria: <strong>{{ aiName }}</strong></p>
+
+    <label>
+      Quem comeca
+      <select [ngModel]="starter()" (ngModelChange)="starter.set($event)">
+        <option value="humano">Humano</option>
+        <option value="ia">IA</option>
+      </select>
+    </label>
+
+    <label>
+      Seu simbolo
+      <select [ngModel]="humanSymbol()" (ngModelChange)="humanSymbol.set($event)">
+        <option value="X">X</option>
+        <option value="O">O</option>
+      </select>
+    </label>
+
+    <label>
+      Dificuldade
+      <select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)">
+        <option value="facil">Facil</option>
+        <option value="medio">Medio</option>
+        <option value="mestre">Mestre</option>
+      </select>
+    </label>
+
+    <label>
+      Idioma da IA
+      <select [ngModel]="language()" (ngModelChange)="language.set($event)">
+        <option value="pt-BR">pt-BR</option>
+        <option value="es">es</option>
+        <option value="en-US">en-US</option>
+      </select>
+    </label>
+
+    <div class="actions">
+      <button class="primary" (click)="startGame()">Nova partida</button>
+      <button class="ghost" (click)="resetScoreboard()">Zerar placar</button>
+    </div>
+  </section>
+
+  <section class="panel game">
+    <div class="hud">
+      <p>Turno: <strong>{{ currentTurn() }}</strong></p>
+      <p>{{ status() }}</p>
+    </div>
+
+    <div class="board">
+      @for (cell of board(); track $index) {
+        <button class="cell" [disabled]="!canInteract() || cell !== null" (click)="onHumanMove($index)">
+          {{ cell ?? '' }}
+        </button>
+      }
+    </div>
+
+    <div class="replay">
+      <button class="primary" (click)="startGame()">Jogar novamente</button>
+      <button class="ghost" [disabled]="!gameOver()">Encerrar agora</button>
+    </div>
+  </section>
+
+  <section class="panel side">
+    <h2>Placar da sessao</h2>
+    <ul>
+      <li>Humano: {{ scoreboard().humano }}</li>
+      <li>{{ aiName }}: {{ scoreboard().ia }}</li>
+      <li>Empates: {{ scoreboard().empates }}</li>
+    </ul>
+
+    <h2>Chat</h2>
+    <p class="bubble">
+      @if (isAiThinking()) {
+        {{ aiName }}: pensando...
+      } @else {
+        {{ aiLine() }}
+      }
+    </p>
+  </section>
+</main>
